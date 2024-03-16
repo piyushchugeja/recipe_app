@@ -140,7 +140,6 @@ class HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 16),
           Expanded(
-            // get data from firestore and display as recipecard
             child: StreamBuilder<QuerySnapshot>(
               stream:
                   FirebaseFirestore.instance.collection('recipes').snapshots(),
@@ -156,13 +155,14 @@ class HomePageState extends State<HomePage> {
                     final DocumentSnapshot recipe = snapshot.data!.docs[index];
                     return RecipeCard(
                       title: recipe['title'],
-                      imageUrl: const AssetImage('images/pasta.jpg'),
+                      imageUrl: const AssetImage('images/recipe.png'),
                       calories:
                           "${String.fromCharCode(0x00B7)}${recipe['calories']} cal",
                       cookTime: recipe['cookTime'],
                       cuisine: recipe['cuisine'],
                       ingredients: List<String>.from(recipe['ingredients']),
                       instructions: List<String>.from(recipe['instructions']),
+                      typeOfFood: recipe['typeOfFood'],
                     );
                   },
                 );

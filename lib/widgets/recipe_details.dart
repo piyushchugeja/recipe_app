@@ -6,6 +6,7 @@ class RecipeDetails extends StatelessWidget {
   final String calories;
   final String cookTime;
   final String cuisine;
+  final String typeOfFood;
   final List<String> ingredients;
   final List<String> instructions;
   const RecipeDetails({
@@ -17,6 +18,7 @@ class RecipeDetails extends StatelessWidget {
     required this.cuisine,
     required this.ingredients,
     required this.instructions,
+    required this.typeOfFood,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,14 @@ class RecipeDetails extends StatelessWidget {
                         const Icon(Icons.food_bank),
                         const SizedBox(height: 8),
                         Text(cuisine),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        const Icon(Icons.local_dining),
+                        const SizedBox(height: 8),
+                        Text(typeOfFood),
                       ],
                     ),
                   ],

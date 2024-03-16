@@ -7,6 +7,7 @@ class RecipeCard extends StatelessWidget {
   final String calories;
   final String cookTime;
   final String cuisine;
+  final String typeOfFood;
   final List<String> ingredients;
   final List<String> instructions;
 
@@ -16,6 +17,7 @@ class RecipeCard extends StatelessWidget {
     required this.imageUrl,
     required this.calories,
     required this.cookTime,
+    required this.typeOfFood,
     required this.cuisine,
     required this.ingredients,
     required this.instructions,
@@ -35,6 +37,7 @@ class RecipeCard extends StatelessWidget {
               cuisine: cuisine,
               ingredients: ingredients,
               instructions: instructions,
+              typeOfFood: typeOfFood,
             ),
           ),
         );
@@ -120,6 +123,22 @@ class RecipeCard extends StatelessWidget {
                               Container(width: 5),
                               Text(
                                 cookTime,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Colors.grey[500],
+                                    ),
+                              ),
+                              Container(width: 20),
+                              Icon(
+                                Icons.local_dining,
+                                color: Colors.grey[500],
+                                size: 16,
+                              ),
+                              Container(width: 5),
+                              Text(
+                                typeOfFood,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
