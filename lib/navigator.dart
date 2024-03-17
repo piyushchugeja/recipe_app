@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:recipe_app/ai_recipe.dart';
 import 'package:recipe_app/homepage.dart';
 import 'package:recipe_app/new_recipe.dart';
 
 final bottomNavIndexProvider = StateProvider((ref) => 0);
 
 class NavigatorPage extends StatelessWidget {
-  const NavigatorPage({Key? key}) : super(key: key);
+  const NavigatorPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +46,7 @@ class NavigatorPage extends StatelessWidget {
                 ),
               ),
               NewRecipe(),
+              AIRecipeProvider(),
             ],
           );
         },
@@ -64,25 +66,34 @@ class NavigatorPage extends StatelessWidget {
               activeColor: Colors.black87,
               tabBackgroundColor: const Color.fromRGBO(0, 181, 191, 0.25),
               padding: const EdgeInsets.all(16),
-              iconSize: 28,
-              gap: 7,
+              iconSize: 24,
+              gap: 4,
               tabs: const [
                 GButton(
+                  haptic: true,
                   icon: Icons.home,
                   text: 'Home',
                 ),
                 GButton(
+                  haptic: true,
                   icon: Icons.bookmark,
-                  text: 'Categories',
+                  text: 'Types',
                 ),
                 GButton(
+                  haptic: true,
                   icon: Icons.favorite,
-                  text: 'Favourites',
+                  text: 'Liked',
                 ),
                 GButton(
+                  haptic: true,
                   icon: Icons.add_circle,
-                  text: 'Add new',
+                  text: 'New',
                 ),
+                GButton(
+                  haptic: true,
+                  icon: Icons.auto_awesome,
+                  text: 'Ask AI',
+                )
               ],
               selectedIndex: currentIndex,
               onTabChange: (value) {

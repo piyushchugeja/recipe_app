@@ -12,7 +12,7 @@ class RecipeCard extends StatelessWidget {
   final List<String> instructions;
 
   const RecipeCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.imageUrl,
     required this.calories,
@@ -21,7 +21,7 @@ class RecipeCard extends StatelessWidget {
     required this.cuisine,
     required this.ingredients,
     required this.instructions,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,7 +46,6 @@ class RecipeCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          // borderRadius: BorderRadius.circular(16),
         ),
         child: Card(
           shape: RoundedRectangleBorder(
@@ -84,9 +83,7 @@ class RecipeCard extends StatelessWidget {
                                   color: Colors.grey[800],
                                 ),
                           ),
-                          // Add some spacing between the title and the subtitle
                           Container(height: 5),
-                          // Add a subtitle widget
                           Text(
                             cuisine,
                             style:
@@ -94,9 +91,7 @@ class RecipeCard extends StatelessWidget {
                                       color: Colors.grey[500],
                                     ),
                           ),
-                          // Add some spacing between the subtitle and the text
                           Container(height: 10),
-                          // Add 2 text widgets to display calories and cook time with icons
                           Row(
                             children: <Widget>[
                               Icon(
@@ -123,22 +118,6 @@ class RecipeCard extends StatelessWidget {
                               Container(width: 5),
                               Text(
                                 cookTime,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      color: Colors.grey[500],
-                                    ),
-                              ),
-                              Container(width: 20),
-                              Icon(
-                                Icons.local_dining,
-                                color: Colors.grey[500],
-                                size: 16,
-                              ),
-                              Container(width: 5),
-                              Text(
-                                typeOfFood,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!

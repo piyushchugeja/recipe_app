@@ -15,9 +15,20 @@ class _NewRecipeState extends State<NewRecipe> {
   final _cookTimeController = TextEditingController();
   double _sliderValue = 20;
   String? _foodType = 'Vegetarian';
-  final _cuisineController = TextEditingController();
+  final _cuisineController = TextEditingController(text: 'Indian');
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
+  final List<String> _cuisines = [
+    'Indian',
+    'Chinese',
+    'Italian',
+    'Mexican',
+    'American',
+    'Japanese',
+    'Thai',
+    'Belgian',
+    'Greek',
+  ];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -106,8 +117,32 @@ class _NewRecipeState extends State<NewRecipe> {
               },
             ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _cuisineController,
+            // TextFormField(
+            //   controller: _cuisineController,
+            //   decoration: const InputDecoration(
+            //     labelText: "Cuisine",
+            //     prefixIcon: Icon(Icons.local_dining),
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(16),
+            //       ),
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(16),
+            //       ),
+            //     ),
+            //   ),
+            //   validator: (value) {
+            //     if (value == null || value.isEmpty) {
+            //       return 'Please enter the cuisine';
+            //     }
+            //     return null;
+            //   },
+            // ),
+            // Use dropdown to ask for cuisine
+            DropdownButtonFormField<String>(
+              value: _cuisineController.text,
               decoration: const InputDecoration(
                 labelText: "Cuisine",
                 prefixIcon: Icon(Icons.local_dining),
@@ -122,6 +157,17 @@ class _NewRecipeState extends State<NewRecipe> {
                   ),
                 ),
               ),
+              items: _cuisines.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                setState(() {
+                  _cuisineController.text = value!;
+                });
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter the cuisine';

@@ -51,7 +51,7 @@ class RecipeDetails extends StatelessWidget {
                   child: Image(
                     image: imageUrl,
                     fit: BoxFit.cover,
-                    width: 300,
+                    width: 200,
                     height: 200,
                   ),
                 ),
