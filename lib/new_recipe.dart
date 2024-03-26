@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewRecipe extends StatefulWidget {
   const NewRecipe({super.key});
@@ -11,7 +14,8 @@ class NewRecipe extends StatefulWidget {
 class _NewRecipeState extends State<NewRecipe> {
   final _addRecipeFormKey = GlobalKey<FormState>();
   final _recipeNameController = TextEditingController();
-  final _recipeImageController = TextEditingController();
+  XFile? _recipeImageController = XFile('');
+  final _imageControllerText = "Select image";
   final _cookTimeController = TextEditingController();
   double _sliderValue = 20;
   String? _foodType = 'Vegetarian';
@@ -68,30 +72,40 @@ class _NewRecipeState extends State<NewRecipe> {
                 return null;
               },
             ),
-            // const SizedBox(height: 16),
-            // TextFormField(
-            //   controller: _recipeImageController,
-            //   decoration: const InputDecoration(
-            //     labelText: "Recipe image",
-            //     prefixIcon: Icon(Icons.image),
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.all(
-            //         Radius.circular(16),
-            //       ),
-            //     ),
-            //     focusedBorder: OutlineInputBorder(
-            //       borderRadius: BorderRadius.all(
-            //         Radius.circular(16),
-            //       ),
-            //     ),
-            //   ),
-            //   validator: (value) {
-            //     if (value == null || value.isEmpty) {
-            //       return 'Please enter a recipe image';
-            //     }
-            //     return null;
-            //   },
-            // ),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final ImagePicker picker = ImagePicker();
+                final XFile? image = await picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+                setState(() {
+                  _recipeImageController = image;
+                });
+              },
+              icon: const Icon(Icons.upload_file),
+              label: Text(
+                _recipeImageController == null
+                    ? _imageControllerText
+                    : _recipeImageController?.name ?? '',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(vertical: 16),
+                ),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _cookTimeController,
@@ -272,7 +286,7 @@ class _NewRecipeState extends State<NewRecipe> {
                 if (_addRecipeFormKey.currentState!.validate()) {
                   Recipe r = Recipe(
                     name: _recipeNameController.text,
-                    image: AssetImage(_recipeImageController.text),
+                    image: _recipeImageController,
                     calories: _sliderValue.round().toString(),
                     cookTime: _cookTimeController.text,
                     cuisine: _cuisineController.text,
@@ -308,7 +322,7 @@ class _NewRecipeState extends State<NewRecipe> {
 
 class Recipe {
   final String name;
-  AssetImage? image;
+  XFile? image;
   final String calories;
   final String cookTime;
   final String cuisine;
@@ -324,7 +338,7 @@ class Recipe {
     required this.ingredients,
     required this.instructions,
     required this.typeOfFood,
-    this.image,
+    required this.image,
   });
 
   @override
@@ -336,11 +350,13 @@ class Recipe {
 
   bool saveRecipe() {
     try {
+      File imageFile = File(image!.path);
       FirebaseFirestore.instance.collection('recipes').add({
         'title': name,
         'calories': calories,
         'cookTime': cookTime,
         'cuisine': cuisine,
+        'image': imageFile,
         'ingredients': ingredients,
         'instructions': instructions,
         'typeOfFood': typeOfFood,
